@@ -1,0 +1,17 @@
+.custom-datepicker {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #4caf50;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .react-datepicker__header {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .react-datepicker__day--selected,
+  .react-datepicker__time-list-item--selected {
+    background-color: #388e3c !important;
+  }

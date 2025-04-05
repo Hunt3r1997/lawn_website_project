@@ -18,7 +18,7 @@ function Main() {
 
       }}
     >
-      <h1>Get Started</h1>
+    
 
       {/* Button container with .buttons class */}
       <div
