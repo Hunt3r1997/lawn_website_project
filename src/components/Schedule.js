@@ -1,34 +1,44 @@
-// src/components/Schedule.js
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import './Schedule.css'; 
+import emailjs from '@emailjs/browser';
+import './Schedule.css';
+
 function Schedule() {
   const [date, setDate] = useState(new Date());
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [bookings, setBookings] = useState([]);
 
-  // Fetch existing bookings on component mount
+  // Load bookings from localStorage on mount
   useEffect(() => {
-    fetch('/.netlify/functions/getBookings')
-      .then((res) => res.json())
-      .then((data) => setBookings(data))
-      .catch((err) => setMessage('Error loading bookings: ' + err.message));
+    const savedBookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    setBookings(savedBookings);
+  }, []);
+
+  // Save bookings to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('bookings', JSON.stringify(bookings));
+  }, [bookings]);
+
+  // Initialize EmailJS with Public Key
+  useEffect(() => {
+    emailjs.init(process.env.REACT_APP_EMAILJS_PUBLIC_KEY);
   }, []);
 
   // Check if a time slot is available
   const isTimeAvailable = (time) => {
     const hour = time.getHours();
     const month = time.getMonth(); // 0 = Jan, 11 = Dec
-    const isSeason = month >= 2 && month <= 9; // March (2) to Oct (9)
-    const isBusinessHours = hour >= 8 && hour < 18; // 8 AM - 6 PM
+    const isSeason = month >= 2 && month <= 9; // March-Oct
+    const isBusinessHours = hour >= 8 && hour < 18; // 8 AM-6 PM
 
     if (!isSeason || !isBusinessHours) return false;
 
-    // Check for overlap within 1-hour window
     return !bookings.some((booking) => {
       const bookedDate = new Date(booking.date);
+      if (isNaN(bookedDate.getTime())) return false;
       const timeDiff = Math.abs(time - bookedDate) / (1000 * 60 * 60); // Hours
       return timeDiff < 1; // Block if within 1 hour
     });
@@ -39,29 +49,69 @@ function Schedule() {
       setMessage('Please enter your name!');
       return;
     }
+    if (!email) {
+      setMessage('Please enter your email!');
+      return;
+    }
     if (!isTimeAvailable(date)) {
       setMessage('That time is unavailable or outside our hours!');
       return;
     }
 
-    const booking = { name, date: date.toISOString() };
+    const booking = { name, email, date: date.toISOString() };
+    setBookings([...bookings, booking]);
+
+    // Prepare email parameters
+    const emailParams = {
+      name,
+      email,
+      date: date.toLocaleString(),
+    };
+
     try {
-      const response = await fetch('/.netlify/functions/book', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(booking),
-      });
-      if (response.ok) {
-        setMessage(`Thanks, ${name}! We’ll mow on ${date.toLocaleString()}.`);
-        setBookings([...bookings, booking]); // Update local state
-        setName('');
-        setDate(new Date());
-      } else {
-        setMessage('Booking failed—try again.');
-      }
+      // Send Customer Confirmation Email (to customer's email)
+      await emailjs.send(
+        process.env.REACT_APP_EMAILJS_SERVICE_ID,
+        process.env.REACT_APP_EMAILJS_CUSTOMER_TEMPLATE_ID,
+        {
+          ...emailParams,
+          to_email: email, // Customer's email
+        }
+      );
+
+      // Send Business Notification Email (to ampeduplawncare@gmail.com)
+      await emailjs.send(
+        process.env.REACT_APP_EMAILJS_SERVICE_ID,
+        process.env.REACT_APP_EMAILJS_BUSINESS_TEMPLATE_ID,
+        {
+          ...emailParams,
+          to_email: process.env.REACT_APP_BUSINESS_EMAIL, // ampeduplawncare@gmail.com
+        }
+      );
+
+      setMessage('Booking successful! Confirmation emails sent.');
     } catch (error) {
-      setMessage('Error: ' + error.message);
+      console.error('EmailJS error:', error);
+      setMessage('Booking saved, but failed to send emails. Please try again.');
     }
+
+    setName('');
+    setEmail('');
+    setDate(new Date());
+    // Auto-clear message after 5 seconds
+    setTimeout(() => setMessage(''), 5000);
+  };
+
+  // Export bookings as a JSON file
+  const exportBookings = () => {
+    const dataStr = JSON.stringify(bookings, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'bookings.json';
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -71,7 +121,7 @@ function Schedule() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#D3D3D3', // Light green background
+        backgroundColor: '#D3D3D3',
         padding: '20px',
       }}
     >
@@ -106,16 +156,33 @@ function Schedule() {
         </div>
         <div style={{ marginBottom: '20px' }}>
           <label style={{ display: 'block', color: '#388e3c', marginBottom: '5px' }}>
+            Your Email:
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '8px',
+                borderRadius: '5px',
+                border: '1px solid #ccc',
+                marginTop: '5px',
+              }}
+            />
+          </label>
+        </div>
+        <div style={{ marginBottom: '20px' }}>
+          <label style={{ display: 'block', color: '#388e3c', marginBottom: '5px' }}>
             Pick a Date & Time:
             <DatePicker
               selected={date}
               onChange={(newDate) => setDate(newDate)}
               showTimeSelect
-              timeIntervals={30} // 30-minute slots
+              timeIntervals={30}
               dateFormat="MMMM d, yyyy h:mm aa"
-              minDate={new Date()} // No past dates
-              filterDate={(d) => d.getMonth() >= 2 && d.getMonth() <= 9} // March-Oct
-              filterTime={isTimeAvailable} // Business hours + availability
+              minDate={new Date()}
+              filterDate={(d) => d.getMonth() >= 2 && d.getMonth() <= 9}
+              filterTime={isTimeAvailable}
               className="custom-datepicker"
             />
           </label>
@@ -137,6 +204,33 @@ function Schedule() {
         {message && (
           <p style={{ marginTop: '15px', color: '#2e7d32' }}>{message}</p>
         )}
+        <h2 style={{ color: '#2e7d32', marginTop: '20px' }}>Current Bookings</h2>
+        {bookings.length === 0 ? (
+          <p>No bookings yet.</p>
+        ) : (
+          <ul style={{ listStyle: 'none', padding: 0 }}>
+            {bookings.map((booking, index) => (
+              <li key={index} style={{ margin: '10px 0' }}>
+                {booking.name} ({booking.email}) - {new Date(booking.date).toLocaleString()}
+              </li>
+            ))}
+          </ul>
+        )}
+        <button
+          onClick={exportBookings}
+          style={{
+            padding: '10px 20px',
+            backgroundColor: '#388e3c',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            marginTop: '10px',
+          }}
+        >
+          Export Bookings
+        </button>
       </div>
     </div>
   );
