@@ -6,15 +6,18 @@ import { Routes, Route } from 'react-router-dom';
 import Schedule from './components/Schedule';
 import About from './components/About';
 import CO2 from './components/CO2';
+import Rewards from './components/Rewards';
 
 function App() {
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<> <Header /> <Main /> </>} />
-        <Route path="/schedule" element={<> <Header /> <Schedule /> </>} />
+        <Route path="/schedule" element={ <Schedule /> } />
         <Route path="/about" element={<> <Header /> <About /> </>} />
-        <Route path="/co2" element={<CO2 />} /> {/* No Header here */}
+        <Route path="/co2" element={<CO2 />} /> 
+        <Route path="/rewards" element={ <Rewards /> } />
+
       </Routes>
     </div>
   );

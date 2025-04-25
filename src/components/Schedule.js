@@ -32,7 +32,7 @@ function Schedule() {
     const hour = time.getHours();
     const month = time.getMonth(); // 0 = Jan, 11 = Dec
     const isSeason = month >= 2 && month <= 9; // March-Oct
-    const isBusinessHours = hour >= 8 && hour < 18; // 8 AM-6 PM
+    const isBusinessHours = hour >= 7 && hour < 17; // 7 AM–5 PM
 
     if (!isSeason || !isBusinessHours) return false;
 
@@ -66,20 +66,18 @@ function Schedule() {
       name,
       email,
       date: date.toLocaleString(),
+      to_email: email, // For customer email
     };
 
     try {
-      // Send Customer Confirmation Email (to customer's email)
+      // Send Customer Confirmation Email
       await emailjs.send(
         process.env.REACT_APP_EMAILJS_SERVICE_ID,
         process.env.REACT_APP_EMAILJS_CUSTOMER_TEMPLATE_ID,
-        {
-          ...emailParams,
-          to_email: email, // Customer's email
-        }
+        emailParams
       );
 
-      // Send Business Notification Email (to ampeduplawncare@gmail.com)
+      // Send Business Notification Email
       await emailjs.send(
         process.env.REACT_APP_EMAILJS_SERVICE_ID,
         process.env.REACT_APP_EMAILJS_BUSINESS_TEMPLATE_ID,

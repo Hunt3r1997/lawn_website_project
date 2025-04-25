@@ -31,17 +31,19 @@ function Main() {
           gap: '20px',  // Add space between the buttons
         }}
       >
-        <Link to="/schedule">
+        <Link to = "/schedule">
           <button className="oval-button">Schedule</button>
         </Link> 
 
-        <Link to ="/co2">
+        <Link to = "/co2">
           <button className="oval-button">CO2</button>
         </Link>
 
-        <button className="oval-button">Rewards</button> 
+        <Link to = "/rewards">
+          <button className="oval-button">Rewards</button> 
+        </Link> 
 
-        <Link to="/about">
+        <Link to = "/about">
           <button className="oval-button">About</button>
         </Link>
       </div>
