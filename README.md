@@ -1,3 +1,57 @@
+
+Amped Up Lawn Care Website
+
+Overview
+
+Amped Up Lawn Care is a React-based single-page application (SPA) built by Hunter, a Southern Nazarene University student graduating in May 2025. The website promotes a sustainable lawn care service using electric mowers, offering online booking, CO2 savings visualization, and information about the business. It serves as both a business tool and a learning project to develop skills in software development and entrepreneurship.
+
+Features
+
+Homepage: Displays a full-screen background image with navigation buttons to Schedule, CO2, Rewards, and About pages.
+
+
+Schedule: Allows users to book mowing appointments, checks availability (March–October, 7 AM–5 PM), and sends confirmation emails via EmailJS.
+
+
+CO2: Visualizes CO2 savings (electric mowers) vs. pollution (gas mowers) using a Chart.js line graph.
+
+
+About: Shares Hunter’s story, mission, and sustainability goals with a two-column text-and-image layout.
+
+
+Rewards: Placeholder page with a "Coming Soon" message for a future rewards program.
+
+
+Header: Shows the site title on Homepage and About pages for branding.
+
+Tech Stack
+
+
+Frontend: React, react-router-dom (routing), react-datepicker (booking), Chart.js (graphs)
+
+
+Styling: Inline CSS, external CSS (App.css, Schedule.css), system fonts
+
+
+Backend: EmailJS (email notifications), localStorage (booking storage)
+
+
+Deployment: Netlify (hosting), Network Solutions (domain), GitHub (version control)
+
+
+Tools: VS Code, Create React App, Git
+
+
+
+
+
+
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
