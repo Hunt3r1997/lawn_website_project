@@ -78,7 +78,7 @@ function CO2() {
     <div
       style={{
         padding: '20px',
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#d3d3d3',
         borderRadius: '8px',
         textAlign: 'center',
       }}
