@@ -14,7 +14,10 @@ function Header() {
         color: 'white',
       }}
     >
-      <h1 style={{ margin: 0, fontSize: '36px' }}>Amped Up Lawn Care</h1>
+      <h1 style={{ fontFamily: "'Orbitron', sans-serif", fontWeight: '700', color: 'white', fontSize: '36px' }}>
+  Amped Up Lawn Care
+</h1>
+
     </header>
   );
 }
