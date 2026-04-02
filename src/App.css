@@ -4,54 +4,48 @@
   margin: 0;
   padding: 0;
 }
-
 header {
   background-color: transparent;
   color: white;
   padding: 20px;
   text-align: center;
 }
-
 header h1 {
   margin: 0;
 }
-
 nav ul {
   list-style: none;
   padding: 0;
 }
-
 nav ul li {
   display: inline;
   margin: 0 15px;
 }
-
 nav ul li a {
   color: white;
   text-decoration: none;
 }
-
 main {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;  /* Full screen height */
-  width: 100%;  /* Ensure full width */
-  background-image: url('./images/background.jpg.jpg');  /* Add image path here */
-  background-size: cover;  /* Ensure image covers the whole screen */
-  background-position: center;  /* Keep the image centered */
-  background-attachment: fixed;  /* Optional, for parallax effect */
+  height: 100vh;
+  width: 100%;
+  background-image: url('./images/background.jpg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: scroll; /* Changed from fixed - fixes white screen on mobile */
 }
-
 /* Button container centered horizontally and vertically */
 .buttons {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
-  z-index: 2;  /* Ensure buttons appear on top of background */
+  z-index: 2;
+  flex-wrap: wrap; /* Allows buttons to wrap on small screens */
+  padding: 0 20px; /* Prevents buttons touching screen edges */
 }
-
 .oval-button {
   font-family: 'Orbitron', sans-serif;
   padding: 15px 30px;
@@ -61,16 +55,26 @@ main {
   border: none;
   font-size: 18px;
   cursor: pointer;
-  
 }
-
 .oval-button:hover {
   background-color: #45a049;
 }
-
 footer {
   background-color: transparent;
   text-align: center;
   padding: 20px;
 }
- 
+
+/* Mobile styles */
+@media (max-width: 600px) {
+  .buttons {
+    flex-direction: column; /* Stack buttons vertically on mobile */
+    gap: 15px;
+  }
+
+  .oval-button {
+    font-size: 16px;
+    padding: 12px 40px; /* Wider buttons, easier to tap */
+    width: 200px; /* Consistent width when stacked */
+  }
+}
