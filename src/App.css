@@ -1,4 +1,19 @@
 /* src/App.css */
+/* src/App.css */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1b5e20;
+}
+
+.App {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+/* ... rest of your css stays the same */
+
+
 .App {
   font-family: Arial, sans-serif;
   margin: 0;
