@@ -1,72 +1,67 @@
 import React from 'react';
-import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 
-// Register Chart.js components
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 function CO2() {
-  // Data for the graph: x-axis (yards mowed) and y-axis (CO2 saved and CO2 polluted)
+  const labels = [
+    'Customer 1', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5',
+    'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'Customer 10', 'Customer 11'
+  ];
+
+  // CO2 saved per customer (electric mower)
+  const co2Saved = [144, 72, 144, 72, 144, 144, 72, 72, 72, 72, 144];
+
+  // CO2 a gas mower would have emitted (2x the saved amount)
+  const co2Gas = co2Saved.map(val => val * 2);
+
   const data = {
-    labels: [1, 5, 10, 15, 20], // Yards mowed
+    labels,
     datasets: [
       {
-        label: 'CO2 Saved (lbs)',
-        data: [12.5, 62.5, 125, 187.5, 250], // CO2 saved (pink line)
-        borderColor: '#FF69B4', // Pink for CO2 saved
-        backgroundColor: 'rgba(255, 105, 180, 0.2)', // Light pink area under the curve
-        fill: true, // Fill the area under the curve
-        tension: 0.4, // Smooth curve
-        pointRadius: 5, // Radius of the points on the line
-        pointBackgroundColor: '#FF69B4', // Point color for CO2 saved
-        pointHoverRadius: 7, // Hover effect on points
+        label: 'CO2 Saved - Electric Mower (lbs)',
+        data: co2Saved,
+        backgroundColor: '#4CAF50', // Green - matches your site buttons
+        borderColor: '#388E3C',
+        borderWidth: 1,
       },
       {
-        label: 'CO2 Polluted (lbs)',
-        data: [25, 125, 250, 375, 500], // CO2 polluted (blue line)
-        borderColor: '#1E90FF', // Blue for CO2 polluted
-        backgroundColor: 'rgba(30, 144, 255, 0.2)', // Light blue area under the curve
-        fill: true, // Fill the area under the curve
-        tension: 0.4, // Smooth curve
-        pointRadius: 5, // Radius of the points on the line
-        pointBackgroundColor: '#1E90FF', // Point color for CO2 polluted
-        pointHoverRadius: 7, // Hover effect on points
+        label: 'CO2 Polluted - Gas Mower Would Have Emitted (lbs)',
+        data: co2Gas,
+        backgroundColor: '#E53935', // Red - gas pollution
+        borderColor: '#B71C1C',
+        borderWidth: 1,
       },
     ],
   };
 
-  // Options for customization
   const options = {
     responsive: true,
     plugins: {
       title: {
         display: true,
-        text: 'CO2 Savings vs CO2 Pollution (Gas vs Electric)',
-        font: {
-          size: 24,
-        },
+        text: 'CO2 Saved (Electric) vs Gas Mower Emissions - 2025',
+        font: { size: 22 },
       },
       tooltip: {
         callbacks: {
           label: function (tooltipItem) {
-            return `${tooltipItem.dataset.label}: ${tooltipItem.raw} lbs`; // Tooltip content
+            return `${tooltipItem.dataset.label}: ${tooltipItem.raw} lbs`;
           },
         },
+      },
+      legend: {
+        position: 'top',
       },
     },
     scales: {
       x: {
-        title: {
-          display: true,
-          text: 'Yards Mowed',
-        },
+        title: { display: true, text: 'Customers' },
       },
       y: {
-        title: {
-          display: true,
-          text: 'CO2 (lbs)',
-        },
-        beginAtZero: true, // Ensures the y-axis starts at 0
+        title: { display: true, text: 'CO2 (lbs)' },
+        beginAtZero: true,
       },
     },
     animation: {
@@ -81,11 +76,18 @@ function CO2() {
         backgroundColor: '#d3d3d3',
         borderRadius: '8px',
         textAlign: 'center',
+        maxWidth: '900px',
+        margin: '0 auto',
       }}
     >
-      <h1>CO2 Savings vs CO2 Pollution</h1>
-      <p>Compare the CO2 saved using electric equipment vs the CO2 polluted by gas-powered equipment:</p>
-      <Line data={data} options={options} />
+      <h1 style={{ fontFamily: 'Orbitron, sans-serif', color: '#2e7d32' }}>
+        2025 CO2 Impact
+      </h1>
+      <p>See how much CO2 Amped Up Lawn Care saved compared to gas-powered mowers:</p>
+      <Bar data={data} options={options} />
+      <div style={{ marginTop: '20px', fontSize: '18px', fontWeight: 'bold', color: '#2e7d32' }}>
+        🌱 Total CO2 Saved in 2025: 1,152 lbs
+      </div>
     </div>
   );
 }
