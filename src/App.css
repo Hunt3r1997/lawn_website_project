@@ -1,19 +1,9 @@
 /* src/App.css */
-/* src/App.css */
 body {
   margin: 0;
   padding: 0;
   background-color: #1b5e20;
 }
-
-.App {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
-/* ... rest of your css stays the same */
-
-
 .App {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -49,17 +39,16 @@ main {
   background-image: url('./images/background.jpg.jpg');
   background-size: cover;
   background-position: center;
-  background-attachment: scroll; /* Changed from fixed - fixes white screen on mobile */
+  background-attachment: scroll;
 }
-/* Button container centered horizontally and vertically */
 .buttons {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
   z-index: 2;
-  flex-wrap: wrap; /* Allows buttons to wrap on small screens */
-  padding: 0 20px; /* Prevents buttons touching screen edges */
+  flex-wrap: wrap;
+  padding: 0 20px;
 }
 .oval-button {
   font-family: 'Orbitron', sans-serif;
@@ -78,18 +67,18 @@ footer {
   background-color: transparent;
   text-align: center;
   padding: 20px;
+  color: white;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px;
 }
-
-/* Mobile styles */
 @media (max-width: 600px) {
   .buttons {
-    flex-direction: column; /* Stack buttons vertically on mobile */
+    flex-direction: column;
     gap: 15px;
   }
-
   .oval-button {
     font-size: 16px;
-    padding: 12px 40px; /* Wider buttons, easier to tap */
-    width: 200px; /* Consistent width when stacked */
+    padding: 12px 40px;
+    width: 200px;
   }
 }
