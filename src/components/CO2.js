@@ -10,10 +10,7 @@ function CO2() {
     'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'Customer 10', 'Customer 11'
   ];
 
-  // CO2 saved per customer (electric mower)
   const co2Saved = [144, 72, 144, 72, 144, 144, 72, 72, 72, 72, 144];
-
-  // CO2 a gas mower would have emitted (2x the saved amount)
   const co2Gas = co2Saved.map(val => val * 2);
 
   const data = {
@@ -22,14 +19,14 @@ function CO2() {
       {
         label: 'CO2 Saved - Electric Mower (lbs)',
         data: co2Saved,
-        backgroundColor: '#4CAF50', // Green - matches your site buttons
+        backgroundColor: '#4CAF50',
         borderColor: '#388E3C',
         borderWidth: 1,
       },
       {
         label: 'CO2 Polluted - Gas Mower Would Have Emitted (lbs)',
         data: co2Gas,
-        backgroundColor: '#E53935', // Red - gas pollution
+        backgroundColor: '#E53935',
         borderColor: '#B71C1C',
         borderWidth: 1,
       },
@@ -42,6 +39,7 @@ function CO2() {
       title: {
         display: true,
         text: 'CO2 Saved (Electric) vs Gas Mower Emissions - 2025',
+        color: '#ffffff',
         font: { size: 22 },
       },
       tooltip: {
@@ -53,14 +51,21 @@ function CO2() {
       },
       legend: {
         position: 'top',
+        labels: {
+          color: '#ffffff', // White legend text
+        },
       },
     },
     scales: {
       x: {
-        title: { display: true, text: 'Customers' },
+        title: { display: true, text: 'Customers', color: '#ffffff' },
+        ticks: { color: '#ffffff' },
+        grid: { color: 'rgba(255,255,255,0.1)' },
       },
       y: {
-        title: { display: true, text: 'CO2 (lbs)' },
+        title: { display: true, text: 'CO2 (lbs)', color: '#ffffff' },
+        ticks: { color: '#ffffff' },
+        grid: { color: 'rgba(255,255,255,0.1)' },
         beginAtZero: true,
       },
     },
@@ -72,20 +77,27 @@ function CO2() {
   return (
     <div
       style={{
-        padding: '20px',
-        backgroundColor: '#d3d3d3',
-        borderRadius: '8px',
-        textAlign: 'center',
-        maxWidth: '900px',
-        margin: '0 auto',
+        minHeight: '100vh',        // Full screen height
+        width: '100%',
+        backgroundColor: '#1b5e20', // Dark green background
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '40px 20px',
+        boxSizing: 'border-box',
       }}
     >
-      <h1 style={{ fontFamily: 'Orbitron, sans-serif', color: '#2e7d32' }}>
+      <h1 style={{ fontFamily: 'Orbitron, sans-serif', color: '#ffffff', marginBottom: '10px' }}>
         2025 CO2 Impact
       </h1>
-      <p>See how much CO2 Amped Up Lawn Care saved compared to gas-powered mowers:</p>
-      <Bar data={data} options={options} />
-      <div style={{ marginTop: '20px', fontSize: '18px', fontWeight: 'bold', color: '#2e7d32' }}>
+      <p style={{ color: '#c8e6c9', marginBottom: '30px' }}>
+        See how much CO2 Amped Up Lawn Care saved compared to gas-powered mowers:
+      </p>
+      <div style={{ width: '100%', maxWidth: '900px' }}>
+        <Bar data={data} options={options} />
+      </div>
+      <div style={{ marginTop: '30px', fontSize: '20px', fontWeight: 'bold', color: '#69f0ae' }}>
         🌱 Total CO2 Saved in 2025: 1,152 lbs
       </div>
     </div>
