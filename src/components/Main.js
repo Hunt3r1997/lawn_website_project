@@ -1,49 +1,42 @@
 import React from 'react';
-import { Link } from 'react-router-dom';  // Import Link
-import backgroundImage from '../images/background.jpg.jpg';  // Import Home background image
+import { Link } from 'react-router-dom';
+import backgroundImage from '../images/background.jpg.jpg';
 
 function Main() {
   return (
     <main
       style={{
-        backgroundImage: `url(${backgroundImage})`,  // Set the background image
-        backgroundSize: 'cover',  // Ensure the image fully covers the viewport
-        backgroundPosition: 'center',  // Center the background image
-        height: '100vh',  // Full screen height
-        display: 'flex',  // Use flexbox to center content
-        flexDirection: 'column',  // Stack content vertically
-        justifyContent: 'center',  // Center content vertically
-        alignItems: 'center',  // Center content horizontally
-        textAlign: 'center', // Ensure text is centered
-
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
       }}
     >
-    
-
-      {/* Button container with .buttons class */}
       <div
         className="buttons"
         style={{
           display: 'flex',
-          flexDirection: 'row',  // makes rows left to right
-          justifyContent: 'center',  // Center buttons horizontally
-          alignItems: 'center',  // Center the buttons vertically
-          gap: '20px',  // Add space between the buttons
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: '20px',
         }}
       >
-        <Link to = "/schedule">
-          <button className="oval-button">Schedule</button>
-        </Link> 
-
-        <Link to = "/co2">
+        <a href="tel:4055357110">
+          <button className="oval-button">Get a Quote</button>
+        </a>
+        <Link to="/co2">
           <button className="oval-button">CO2</button>
         </Link>
-
-        <Link to = "/rewards">
-          <button className="oval-button">Rewards</button> 
-        </Link> 
-
-        <Link to = "/about">
+        <Link to="/rewards">
+          <button className="oval-button">Rewards</button>
+        </Link>
+        <Link to="/about">
           <button className="oval-button">About</button>
         </Link>
       </div>
