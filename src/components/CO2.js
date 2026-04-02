@@ -97,7 +97,7 @@ function CO2() {
       <div style={{ width: '100%', maxWidth: '900px' }}>
         <Bar data={data} options={options} />
       </div>
-      <div style={{ marginTop: '30px', fontSize: '20px', fontWeight: 'bold', color: '#69f0ae' }}>
+      <div style={{ marginTop: '30px', fontSize: '20px', fontWeight: 'bold', color: '#ffffff' }}>
         🌱 Total CO2 Saved in 2025: 1,152 lbs
       </div>
     </div>
